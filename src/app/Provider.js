@@ -11,9 +11,9 @@ function Provider({children}) {
           queries: {
             staleTime: 1000 * 60 * 5,
             cacheTime: 1000 * 60 * 10,
-            retry: 2, // Retry failed queries 2 times
-            refetchOnWindowFocus: true, // Refetch data when the window is refocused
-            refetchOnReconnect: true, // Refetch when the network reconnects
+            retry: 2, 
+            refetchOnWindowFocus: true, 
+            refetchOnReconnect: true,
           },
         },
       });
