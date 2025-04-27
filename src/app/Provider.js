@@ -20,7 +20,7 @@ function Provider({children}) {
   return (
     <QueryClientProvider client={queryClient}>
         <ThemeProvider>
- <Header />
+ {/* <Header /> */}
           <main>{children}</main>
           <Footer />
           </ThemeProvider>

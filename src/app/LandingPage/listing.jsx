@@ -26,7 +26,7 @@ const Listing = ({ searchQuery }) => {
     book.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const {data}=usegetPdfList(0,10);
+  const {data}=usegetPdfList(0,10,searchQuery);
   console.log(data,"data here")
 
   const BookCard = ({ book }) => (

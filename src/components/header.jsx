@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import { ThemeProvider } from "./theme-provider";
 import { ModeToggle } from "./theme-switcher";
 
-export function Header({ onSearch }) {
+export function Header({ value,onChange,show }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [input, setInput] = useState("");
+
 
   const handleSearch = (e) => {
-    setInput(e.target.value);
-    onSearch(e.target.value); 
+    
+  onChange(e.target.value); 
   };
 
   return (
@@ -24,16 +24,18 @@ export function Header({ onSearch }) {
         </div>
 
         <div className="hidden md:flex items-center gap-2">
-  <div className="relative">
+  {!show&&<div className="relative">
     <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
     <input
       type="text"
       placeholder="Search books..."
-      value={input}
+      value={value}
       onChange={handleSearch}
       className="pl-8 pr-3 py-1 text-sm border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
     />
   </div>
+
+  }
   <ModeToggle />
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange />
   <Button className="rounded-full px-4 py-1 text-sm bg-[#048a60]/80 hover:bg-[#048a60] text-white">

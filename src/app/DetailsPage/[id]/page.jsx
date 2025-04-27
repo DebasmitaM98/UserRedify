@@ -1,4 +1,5 @@
 "use client";
+import { Header } from "@/components/header";
 import { useGetDetailsPdfList } from "@/components/query/user/getpdfdetailslist";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,7 +26,9 @@ export default function DetailsPage() {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
   return (
-    <main className="flex flex-col items-start gap-8 pt-12 px-4 md:px-12 bg-[#f6f5e7]">
+    <div>
+      <Header show= {true}/>
+       <main className="flex flex-col items-start gap-8 pt-12 px-4 md:px-12 bg-[#f6f5e7]">
       {/* Book Section */}
       <section className="flex flex-col lg:flex-row w-full max-w-7xl mt-10 gap-6 px-4 md:px-8 mx-auto relative items-center">
         {/* Book Cover */}
@@ -33,7 +36,7 @@ export default function DetailsPage() {
           <div className="flex w-full max-w-[481px] gap-2.5 items-center justify-center relative">
             <div className="absolute w-[480px] h-[480px] rounded-full blur-[20px] bg-gradient-to-b from-[#f9ebac] via-[#f9ebac] to-[#e8f3ed]" />
             <img
-              src={data?.data?.image|| "/CuteGirl.jpg"}
+              src={data?.data?.image || "/CuteGirl.jpg"}
               alt="Book cover"
               className="relative w-[340px] h-[402px] z-10 object-contain max-w-xs:w-[240px] max-w-xs:h-[300px]"
             />
@@ -55,12 +58,17 @@ export default function DetailsPage() {
                 </p>
               </div>
               <p className="font-normal text-sm leading-[22.4px] font-['Inter',Helvetica] text-[#1e1e1e]">
-              {data?.data?.description}
+                {data?.data?.description}
               </p>
             </div>
             <div className="flex items-center w-full">
-              <Button className="rounded-[98px] bg-gradient-to-r mt-2 from-[rgba(16,166,79,1)] to-[rgba(19,173,124,1)] text-white font-normal text-base leading-4 font-['Inter',Helvetica] hover:opacity-90">
-                Read Now
+              <Button
+                asChild
+                className="rounded-[98px] bg-gradient-to-r mt-2 from-[rgba(16,166,79,1)] to-[rgba(19,173,124,1)] text-white font-normal text-base leading-4 font-['Inter',Helvetica] hover:opacity-90"
+              >
+                <a href={data?.data?.pdf} target="_blank" rel="noopener noreferrer">
+                  Read Now
+                </a>
               </Button>
             </div>
           </CardContent>
@@ -91,5 +99,7 @@ export default function DetailsPage() {
         </div>
       </section>
     </main>
+    </div>
+   
   );
 }

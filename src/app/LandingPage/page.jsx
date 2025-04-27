@@ -12,7 +12,7 @@ const Landingpage = () => {
 
   return (
     <div>
-      {/* <Header onSearch={setSearchQuery} /> */}
+      <Header value={searchQuery} onChange={setSearchQuery} />
      
       < Hero/>
       <Listing searchQuery={searchQuery} />
