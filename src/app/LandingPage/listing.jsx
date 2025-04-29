@@ -1,33 +1,34 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { usegetPdfList } from "@/components/query/user/getpdflist";
 import Image from "next/image";
+import { Pagination } from "@/components/Pagination";
 
 const Listing = ({ searchQuery }) => {
-  const bookData = [
-    { id: 1, title: "LOVE STORY", author: "Erich Segal", image: "/CuteGirl.jpg" },
-    { id: 2, title: "HERE’S A STORY", author: "L.J Shen", image: "/Color.jpeg" },
-    { id: 3, title: "FUN BEDTIME", author: "L.J Shen", image: "/Science.jpg" },
-    { id: 4, title: "EVER AFTER", author: "Karen Kingsbury", image: "/Leaf.jpeg" },
-    { id: 5, title: "FIRST WORDS", author: "L.J Shen", image: "/Science.jpg" },
-    { id: 6, title: "MY IMAGINATION", author: "L.J Shen", image: "/Science.jpg" },
-    { id: 7, title: "MEMORY", author: "L.J Shen", image: "/Science.jpg" },
-    { id: 8, title: "NEVER ENDING SKY", author: "L.J Shen", image: "/CuteGirl.jpg" },
-    { id: 9, title: "DARK WORLD", author: "L.J Shen", image: "/CuteGirl.jpg" },
-    { id: 10, title: "THE PAST", author: "L.J Shen", image: "/CuteGirl.jpg" },
-    { id: 11, title: "JUST BEYOND", author: "L.J Shen", image: "/CuteGirl.jpg" },
-    { id: 12, title: "WHEN WE WERE", author: "L.J Shen", image: "/CuteGirl.jpg" },
-  ];
+ 
 
-  const filteredBooks = bookData.filter((book) =>
-    book.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize,setpageSize]=useState("10")
 
-  const {data}=usegetPdfList(0,10,searchQuery);
+
+  const {data}=usegetPdfList(currentPage,pageSize,searchQuery);
   console.log(data,"data here")
+
+  const handleNextPage = () => {
+    if (isFetching) {
+      return;
+    }
+    setPage((prev) => prev + 1);
+  };
+  const handlePreviosPage = () => {
+    if (!isFetching && page > 0) {
+      setPage((prev) => prev - 1);
+    }
+  };
+
 
   const BookCard = ({ book }) => (
     <Card className="w-[140px] sm:w-[160px] flex flex-col items-center px-2 py-3  border border-gray-200  bg-white">
@@ -60,6 +61,19 @@ const Listing = ({ searchQuery }) => {
           <BookCard key={index} book={book} />
         ))}
       </div>
+      {data?.list?.length > 0 && (
+  <Pagination
+    pageSize={pageSize}
+    currentPage={currentPage}
+    setpageSize={(size) => {
+      setpageSize(size);
+    }}
+    setPage={setCurrentPage}
+    handleNextPage={handleNextPage}
+    handlePreviosPage={handlePreviosPage}
+    totalPage={Math.ceil(data?.totalPages / pageSize)}
+  />
+)}
     </main>
   );
 };
