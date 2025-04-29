@@ -1,14 +1,16 @@
-import { useRouter } from 'next/router';
+"use client";
+import { useGetDetailsPdfList } from '@/components/query/user/getpdfdetailslist';
+import { useParams } from 'next/navigation';
 
 export default function ReadPDFPage() {
-  const router = useRouter();
-  const { pdf } = router.query;
+  const {id} = useParams();
+    const { data } = useGetDetailsPdfList(id);
 
   return (
     <div style={{ width: '100%', height: '100vh' }}>
-      {pdf ? (
+      {data?.data?.pdf ? (
         <iframe
-          src={pdf}
+          src={data?.data?.pdf}
           title="PDF Viewer"
           width="100%"
           height="100%"
