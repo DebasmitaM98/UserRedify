@@ -12,8 +12,7 @@ export default function Hero() {
           <span className="text-black">Page Begins a Journey</span>
         </h1>
         <p className="text-black/70 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          Ut enim ad cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        At Readify, we believe reading PDFs should be simple and stress-free. Whether you're studying, working, or just browsing documents, our tool gives you a powerful, intuitive experience 
         </p>
        
       </div>

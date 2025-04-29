@@ -3,6 +3,7 @@ import { Header } from "@/components/header";
 import { useGetDetailsPdfList } from "@/components/query/user/getpdfdetailslist";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 
@@ -66,9 +67,15 @@ export default function DetailsPage() {
                 asChild
                 className="rounded-[98px] bg-gradient-to-r mt-2 from-[rgba(16,166,79,1)] to-[rgba(19,173,124,1)] text-white font-normal text-base leading-4 font-['Inter',Helvetica] hover:opacity-90"
               >
-                <a href={data?.data?.pdf} target="_blank" rel="noopener noreferrer">
-                  Read Now
-                </a>
+               <Link
+  href={{
+    pathname: '/read-pdf',
+    query: { pdf: data?.data?.pdf },
+  }}
+  target="_blank" // optional: open in a new tab
+>
+  Read Now
+</Link>
               </Button>
             </div>
           </CardContent>
