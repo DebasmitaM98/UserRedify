@@ -1,27 +1,46 @@
 "use client";
 import { Header } from "@/components/header";
 import { useGetDetailsPdfList } from "@/components/query/user/getpdfdetailslist";
+import { usegetPdfList } from "@/components/query/user/getpdflist";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 export default function DetailsPage() {
   const { id } = useParams();
   console.log(id, "id here");
+  const [currentPage, setCurrentPage] = useState(0);
+    const [pageSize, setpageSize] = useState("10")
 
   const { data } = useGetDetailsPdfList(id);
+   const { data:listData, isFetching } = usegetPdfList(currentPage, pageSize, "");
 
-  const bookData = [
-    { id: "1", title: "LOVE STORY", author: "Erich Segal", image: "/CuteGirl.jpg" },
-    { id: "2", title: "HERE’S A STORY", author: "L.J Shen", image: "/Color.jpeg" },
-    { id: "3", title: "FUN BEDTIME", author: "L.J Shen", image: "/Science.jpg" },
-    { id: "4", title: "EVER AFTER", author: "Karen Kingsbury", image: "/Leaf.jpeg" },
-    { id: "5", title: "FIRST WORDS", author: "L.J Shen", image: "/Science.jpg" },
-  ];
+ 
+  const BookCard = ({ book }) => (
+    <Card className="w-[140px] sm:w-[160px] flex flex-col items-center px-2 py-3  border border-gray-200  bg-white">
+      <Link href={`DetailsPage/${book.id}`} className="w-full">
+        <img
+          src={book.image}
+          alt={`${book.name} cover`}
+          height={50}
+          width={3}
+          className="w-full h-[230px] object-cover rounded-md shadow-sm transition-transform duration-300 ease-in-out hover:shadow-lg hover:scale-105"
+        />
+      </Link>
+      <CardContent className="flex flex-col items-start p-0 mt-1 ml-2 w-full">
+        <h3 className="text-[11px] sm:text-[12px] font-semibold text-black truncate">
+          {book.name}
+        </h3>
+        <p className="text-[10px] sm:text-[11px] text-gray-500 truncate">
+          {book.author}
+        </p>
+      </CardContent>
+    </Card>
+  );
 
-  const selectedBook = bookData.find((book) => book.id === id);
+
 
   const bookDescription =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
@@ -80,26 +99,12 @@ export default function DetailsPage() {
 
         {/* Book List Section */}
         <section className="w-full bg-white py-8 px-4 sm:px-8">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 justify-center">
-            {bookData.map((book) => (
-              <Card
-                key={book.id}
-                className="bg-white border border-gray-200 p-2 rounded-lg shadow-sm hover:shadow-md transition-transform duration-200"
-              >
-                <img
-                  src={book.image}
-                  alt={`${book.title} cover`}
-                  className="w-full h-[180px] sm:h-[200px] object-cover rounded-md"
-                />
-                <CardContent className="mt-2 p-0">
-                  <h3 className="text-sm font-medium text-black truncate">
-                    {book.title}
-                  </h3>
-                  <p className="text-xs text-gray-500 truncate">{book.author}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+         
+            <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7  gap-y-6 pb-8">
+        {listData?.list?.slice(0,7).map((book, index) => (
+          <BookCard key={index} book={book} />
+        ))}
+      </div>
         </section>
       </main>
     </div>
