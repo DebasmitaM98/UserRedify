@@ -4,27 +4,29 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { usegetPdfList } from "@/components/query/user/getpdflist";
-import Image from "next/image";
 import { Pagination } from "@/components/Pagination";
+
 const Listing = ({ searchQuery }) => {
-const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize, setpageSize] = useState("10")
- const { data, isFetching } = usegetPdfList(currentPage, pageSize, searchQuery);
-  console.log(data, "data here")
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState("10");
+
+  const { data, isFetching } = usegetPdfList(currentPage, pageSize, searchQuery);
+  console.log(data, "data here");
 
   const handleNextPage = () => {
-    if (isFetching) {
-      return;
+    if (!isFetching && currentPage + 1 < data?.totalPages) {
+      setCurrentPage((prev) => prev + 1);
     }
-    setCurrentPage((prev) => prev + 1);
   };
+
   const handlePreviosPage = () => {
     if (!isFetching && currentPage > 0) {
       setCurrentPage((prev) => prev - 1);
     }
   };
-const BookCard = ({ book }) => (
-    <Card className="w-[140px] sm:w-[160px] flex flex-col items-center px-2 py-3  border border-gray-200  bg-white">
+
+  const BookCard = ({ book }) => (
+    <Card className="w-[140px] sm:w-[160px] flex flex-col items-center px-2 py-3 border border-gray-200 bg-white">
       <Link href={`DetailsPage/${book.id}`} className="w-full">
         <img
           src={book.image}
@@ -44,30 +46,28 @@ const BookCard = ({ book }) => (
       </CardContent>
     </Card>
   );
-return (
-    <main className="flex flex-col items-center justify-center px-2 sm:px-4 md:px-8 mt-10 gap-8 sm:gap-10">
 
-      <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7  gap-y-6 pb-8">
-        {data?.list.map((book, index) => (
+  return (
+    <main className="flex flex-col items-center justify-center px-2 sm:px-4 md:px-8 mt-10 gap-8 sm:gap-10">
+      <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-y-6 pb-8">
+        {data?.list?.map((book, index) => (
           <BookCard key={index} book={book} />
         ))}
       </div>
+
       <div className="pb-2">
-      {data?.list?.length > 0 && (
-        <Pagination
-          pageSize={pageSize}
-          currentPage={currentPage}
-          setpageSize={(size) => {
-            setpageSize(size);
-          }}
-          setPage={setCurrentPage}
-          handleNextPage={handleNextPage}
-          handlePreviosPage={handlePreviosPage}
-          totalPage={Math.ceil(data?.totalPages / pageSize)}
-        />
-      )}
+        {data?.list?.length > 0 && (
+          <Pagination
+            pageSize={pageSize}
+            currentPage={currentPage}
+            setpageSize={(size) => setPageSize(size)}
+            setPage={setCurrentPage}
+            handleNextPage={handleNextPage}
+            handlePreviosPage={handlePreviosPage}
+            totalPage={data?.totalPages} // ✅ fixed: use totalPages directly
+          />
+        )}
       </div>
-   
     </main>
   );
 };

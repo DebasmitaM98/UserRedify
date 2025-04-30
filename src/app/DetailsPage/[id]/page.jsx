@@ -48,7 +48,7 @@ export default function DetailsPage() {
   return (
     <div>
       <Header show={true} />
-      <main className="flex flex-col items-start gap-8 pt-12 px-4 md:px-12 bg-[#f6f5e7]">
+      <main className="flex flex-col items-start gap-8 pt-12 px-4 md:px-12 dark:bg-black bg-[#f6f5e7]">
         {/* Book Section */}
         <section className="flex flex-col lg:flex-row w-full max-w-7xl mt-10 gap-6 px-4 md:px-8 mx-auto relative items-center">
           {/* Book Cover */}
